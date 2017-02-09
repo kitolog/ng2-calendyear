@@ -26,7 +26,6 @@
   "main": "./dist/index.js",
   "dependencies": {
     "@angular/material": "^2.0.0-beta.1",
-    "bootstrap-year-calendar": "^1.1.1",
     "moment": "^2.17.1"
   },
   "devDependencies": {
