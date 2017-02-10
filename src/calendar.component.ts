@@ -1,23 +1,53 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {MdDialog, MdDialogRef} from '@angular/material';
-// import Calendar from './bootstrap-year-calendar';
+import Calendar from './bootstrap-year-calendar';
 import {MonthService} from './month.service';
 
 @Component({
-  selector: 'calendyear',
-  providers:[MonthService],
+  selector: 'calendar',
   template: `
-    <calendar></calendar>
-  `
+    <md-grid-list cols="3" rowHeight="250px">
+      <md-grid-tile
+          *ngFor="let month of monthService.getMonths()"
+          [colspan]="1"
+          [rowspan]="1">
+          <md-grid-list [style.width]="'90%'" cols="7" rowHeight="30px">
+              <md-grid-tile
+                  [colspan]="7"
+                  [rowspan]="1">
+                  {{month.name}}
+              </md-grid-tile>
+              <md-grid-tile
+                  *ngFor="let weekday of month.weekdays"
+                  [colspan]="1"
+                  [rowspan]="1">
+                  {{weekday}}
+              </md-grid-tile>
+              <md-grid-tile
+                  *ngFor="let day of month.days"
+                  [colspan]="1"
+                  [rowspan]="1">
+                  {{day}}
+              </md-grid-tile>
+          </md-grid-list>
+      </md-grid-tile>
+    </md-grid-list>
+  `,
+  styles: [`
+    md-grid-tile figure {
+      align-items: flex-start;
+    }
+  `]
 })
-export class CalendyearComponent implements OnInit {
+export class CalendarComponent implements OnInit {
 
-  @Input() appointmentsList: any[];
-  @Input() devMode: boolean = false;
+
+  // @Input() appointmentsList: any[];
+  // @Input() devMode: boolean = false;
 
   data: any[];
 
-  constructor(public dialog: MdDialog) {
+  constructor(public monthService: MonthService,) {
     this.data = [
       {
         Name: 'Google I/O',
@@ -55,7 +85,7 @@ export class CalendyearComponent implements OnInit {
   //   });
   // }
 }
-//
+
 // @Component({
 //   selector: 'dialog-result-example-dialog',
 //   template: `

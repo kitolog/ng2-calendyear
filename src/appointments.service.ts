@@ -4,6 +4,8 @@ import {Appointment} from './appointment.model.ts';
 @Injectable()
 export class AppointmentsService {
 
+  appointments: Appointment[] = [];
+
   constructor() {
 
   }

@@ -1,35 +1,35 @@
 import {NgModule, ModuleWithProviders} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {CalendyearComponent} from "./src/calendyear.component";
-import {SampleDirective} from "./src/sample.directive";
-import {SamplePipe} from "./src/sample.pipe";
-import {SampleService} from "./src/sample.service";
+import {CalendarComponent} from "./src/calendar.component";
+import {MonthService} from "./src/month.service";
+import {AppointmentsService} from "./src/appointments.service";
+import {MaterialModule} from "@angular/material";
 
 export * from './src/calendyear.component';
-export * from './src/sample.directive';
-export * from './src/sample.pipe';
-export * from './src/sample.service';
+export * from './src/month.service';
+export * from './src/appointments.service';
+
+
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    MaterialModule.forRoot()
   ],
   declarations: [
     CalendyearComponent,
-    SampleDirective,
-    SamplePipe
+    CalendarComponent,
   ],
   exports: [
     CalendyearComponent,
-    SampleDirective,
-    SamplePipe
   ]
 })
 export class CalendyearModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CalendyearModule,
-      providers: [SampleService]
+      providers: [MonthService, AppointmentsService]
     };
   }
 }
