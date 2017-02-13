@@ -1,14 +1,15 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Input, Output, OnInit, ViewEncapsulation} from '@angular/core';
 import {MdDialog, MdDialogRef} from '@angular/material';
-import Calendar from './bootstrap-year-calendar';
 import {MonthService} from './month.service';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {CalendarService} from './calendar.service';
 
 @Component({
   selector: 'calendar',
   template: `
     <md-grid-list cols="3" rowHeight="250px">
       <md-grid-tile
-          *ngFor="let month of monthService.getMonths()"
+          *ngFor="let month of calendarDates"
           [colspan]="1"
           [rowspan]="1">
           <md-grid-list [style.width]="'90%'" cols="7" rowHeight="30px">
@@ -17,17 +18,19 @@ import {MonthService} from './month.service';
                   [rowspan]="1">
                   {{month.name}}
               </md-grid-tile>
-              <md-grid-tile
+              <md-grid-tile 
                   *ngFor="let weekday of month.weekdays"
                   [colspan]="1"
                   [rowspan]="1">
                   {{weekday}}
               </md-grid-tile>
               <md-grid-tile
+                  (click)="dayClicked(day)"
                   *ngFor="let day of month.days"
                   [colspan]="1"
-                  [rowspan]="1">
-                  {{day}}
+                  [rowspan]="1"
+                  [style.background-color]="day.color">
+                  {{day.date}}
               </md-grid-tile>
           </md-grid-list>
       </md-grid-tile>
@@ -41,13 +44,14 @@ import {MonthService} from './month.service';
 })
 export class CalendarComponent implements OnInit {
 
-
+  @Output()
   // @Input() appointmentsList: any[];
   // @Input() devMode: boolean = false;
 
+  calendarDates: any[];
   data: any[];
 
-  constructor(public monthService: MonthService,) {
+  constructor(public monthService: MonthService, public CalendarService: CalendarService) {
     this.data = [
       {
         Name: 'Google I/O',
@@ -58,7 +62,29 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.reloadCalendarDates();
+    this.CalendarService.appointmentsDays$.subscribe((appointmentDays) => { this.drawAppointmentDays(appointmentDays) })
+  }
 
+  reloadCalendarDates(){
+    this.calendarDates = this.monthService.getMonths();
+  }
+
+  drawAppointmentDays(appointmentDays){
+    this.calendarDates.map(month => {
+      month.days.map(day => {
+          if(day && day.momentDate && appointmentDays.get(day.momentDate.format('YYYY-MM-DD'))){
+            console.log('appointment while drawing', appointmentDays.get(day.momentDate.format('YYYY-MM-DD')));
+            day.color = 'green';
+          }
+        })
+    });
+    //console.log('drawing new appointmentDays', appointmentDays);
+  }
+
+  dayClicked(day){
+    this.CalendarService.clickDay(day);
+    //console.log('day', day);
   }
 
   // addAppointment() {

@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Month} from './month.model';
+import moment from 'moment';
 
 @Injectable()
 export class MonthService {
@@ -18,7 +19,7 @@ export class MonthService {
     let result = [],
       monthLength = this.monthLength[monthNumber],
       startingDay = new Date(this.year, monthNumber, 1).getDay();
-    startingDay = startingDay > 0 ? startingDay : 7
+    startingDay = startingDay > 0 ? startingDay : 7;
 
     if (startingDay > 1) {
       for (let j = 1; j < startingDay; j++) {
@@ -33,10 +34,17 @@ export class MonthService {
     }
 
     for (let i = 1; i <= monthLength; i++) {
-      result.push(i);
+      result.push({
+        date: i,
+        momentDate: this.getMomentDate(this.year, this.monthNames[monthNumber], i)
+      });
     }
 
     return result;
+  }
+
+  getMomentDate(year, month, date){
+   return moment().set({year, month, date});
   }
 
   setYear(year) {
@@ -62,7 +70,7 @@ export class MonthService {
           weekdays: this.weekdayLabels,
         })
       );
-    })
+    });
 
     return result;
   }
