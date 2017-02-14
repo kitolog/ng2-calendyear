@@ -86,7 +86,7 @@ export class AppointmentsService {
   }
 
   getAppointmentsById(appointmentsIds: string[]) {
-    let result: Appointment = [];
+    let result: Appointment[] = [];
     appointmentsIds.map((id) => {
       let appointment = this.getAppointmentById(id);
       if (appointment) {
