@@ -6,6 +6,9 @@ import {MonthService} from './month.service';
 import {CalendarService} from './calendar.service';
 import {AppointmentsService} from './appointments.service';
 
+
+
+
 @Component({
   styleUrls: ['../resources/main.css'],
   selector: 'calendyear',
@@ -15,7 +18,9 @@ import {AppointmentsService} from './appointments.service';
         <md-grid-tile [colspan]="7">
           <calendar></calendar>
         </md-grid-tile>
-        <md-grid-tile [colspan]="3"> Sidebar </md-grid-tile>
+        <md-grid-tile class="aside" [colspan]="3">
+          <sidebar></sidebar>
+        </md-grid-tile>      
     </md-grid-list>
   `,
   encapsulation: ViewEncapsulation.None

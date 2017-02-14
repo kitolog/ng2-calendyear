@@ -1,2 +1,15 @@
-/*@import '~https://fonts.googleapis.com/icon?family=Material+Icons';*/
-/*@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';*/
+@import '~https://fonts.googleapis.com/icon?family=Material+Icons';
+@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+
+
+calendar{
+  width: 100%
+}
+
+sidabar{
+  width: 100%;
+}
+
+.aside figure{
+  align-items: flex-start;
+}
