@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Appointment} from './appointment.model.ts';
+import {Appointment} from './appointment.model';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import moment from 'moment';

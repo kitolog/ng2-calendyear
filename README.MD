@@ -43,6 +43,10 @@ import { SampleModule } from 'ng2-calendyear';
 export class AppModule { }
 ```
 
+import styles in your scss file
+```xml
+@import '~ng2-calendyear/resources/calendyear';
+```
 Once your library is imported, you can use its components, directives and pipes in your Angular application:
 
 ```xml
