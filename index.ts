@@ -8,6 +8,7 @@ import {AppointmentsService} from "./src/appointments.service";
 import {MaterialModule, OverlayContainer} from "@angular/material";
 import {CalendarService} from './src/calendar.service';
 import { FormsModule } from '@angular/forms';
+import { MdlExpansionPanelModule } from '@angular2-mdl-ext/expansion-panel';
 
 export * from './src/calendyear.component';
 export * from './src/month.service';
@@ -18,6 +19,7 @@ export * from './src/appointments.service';
   imports: [
     FormsModule,
     CommonModule,
+    MdlExpansionPanelModule,
     MaterialModule.forRoot()
   ],
   declarations: [
