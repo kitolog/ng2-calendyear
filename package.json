@@ -1,0 +1,107 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "ng2-calendyear@git+https://github.com/kitolog/ng2-calendyear.git",
+        "scope": null,
+        "escapedName": "ng2-calendyear",
+        "name": "ng2-calendyear",
+        "rawSpec": "git+https://github.com/kitolog/ng2-calendyear.git",
+        "spec": "git+https://github.com/kitolog/ng2-calendyear.git",
+        "type": "hosted",
+        "hosted": {
+          "type": "github",
+          "ssh": "git@github.com:kitolog/ng2-calendyear.git",
+          "sshUrl": "git+ssh://git@github.com/kitolog/ng2-calendyear.git",
+          "httpsUrl": "git+https://github.com/kitolog/ng2-calendyear.git",
+          "gitUrl": "git://github.com/kitolog/ng2-calendyear.git",
+          "shortcut": "github:kitolog/ng2-calendyear",
+          "directUrl": "https://raw.githubusercontent.com/kitolog/ng2-calendyear/master/package.json"
+        }
+      },
+      "D:\\work\\calendyear"
+    ]
+  ],
+  "_from": "git+https://github.com/kitolog/ng2-calendyear.git",
+  "_id": "ng2-calendyear@0.1.2",
+  "_inCache": true,
+  "_location": "/ng2-calendyear",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "ng2-calendyear@git+https://github.com/kitolog/ng2-calendyear.git",
+    "scope": null,
+    "escapedName": "ng2-calendyear",
+    "name": "ng2-calendyear",
+    "rawSpec": "git+https://github.com/kitolog/ng2-calendyear.git",
+    "spec": "git+https://github.com/kitolog/ng2-calendyear.git",
+    "type": "hosted",
+    "hosted": {
+      "type": "github",
+      "ssh": "git@github.com:kitolog/ng2-calendyear.git",
+      "sshUrl": "git+ssh://git@github.com/kitolog/ng2-calendyear.git",
+      "httpsUrl": "git+https://github.com/kitolog/ng2-calendyear.git",
+      "gitUrl": "git://github.com/kitolog/ng2-calendyear.git",
+      "shortcut": "github:kitolog/ng2-calendyear",
+      "directUrl": "https://raw.githubusercontent.com/kitolog/ng2-calendyear/master/package.json"
+    }
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "git+https://github.com/kitolog/ng2-calendyear.git#622d3874fa04592aacc754b65c4b9054b55c2bfa",
+  "_shasum": "32346c6fead7231d6e7acbdc4d8a3cf1d54a53ca",
+  "_shrinkwrap": null,
+  "_spec": "ng2-calendyear@git+https://github.com/kitolog/ng2-calendyear.git",
+  "_where": "D:\\work\\calendyear",
+  "author": {
+    "name": "kitolog",
+    "email": "nikita.kosilo@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/kitolog/ng2-calendyear.git/issues"
+  },
+  "dependencies": {
+    "@angular/material": "^2.0.0-beta.1",
+    "moment": "^2.17.1"
+  },
+  "description": "To install this library, run:",
+  "devDependencies": {
+    "@angular/common": "^2.0.0",
+    "@angular/core": "^2.0.0",
+    "@types/es6-shim": "^0.31.32",
+    "@types/jasmine": "^2.5.40",
+    "@types/protractor": "^4.0.0",
+    "@types/selenium-webdriver": "^2.53.39",
+    "codelyzer": "^0.0.28",
+    "rxjs": "^5.0.1",
+    "tslint": "^3.15.1",
+    "typescript": "2.0.2",
+    "zone.js": "0.7.2"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "gitHead": "622d3874fa04592aacc754b65c4b9054b55c2bfa",
+  "homepage": "https://github.com/kitolog/ng2-calendyear#readme",
+  "keywords": [
+    "angular",
+    "angular2"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "name": "ng2-calendyear",
+  "optionalDependencies": {},
+  "readme": "# ng2-calendyear\r\n\r\n## Installation\r\n\r\nTo install this library, run:\r\n\r\n```bash\r\n$ npm install ng2-calendyear --save\r\n```\r\n\r\n## Consuming your library\r\n\r\nOnce you have published your library to npm, you can import your library in any Angular application by running:\r\n\r\n```bash\r\n$ npm install ng2-calendyear\r\n```\r\n\r\nand then from your Angular `AppModule`:\r\n\r\n```typescript\r\nimport { BrowserModule } from '@angular/platform-browser';\r\nimport { NgModule } from '@angular/core';\r\n\r\nimport { AppComponent } from './app.component';\r\n\r\n// Import your library\r\nimport { SampleModule } from 'ng2-calendyear';\r\n\r\n@NgModule({\r\n  declarations: [\r\n    AppComponent\r\n  ],\r\n  imports: [\r\n    BrowserModule,\r\n\r\n    // Specify your library as an import\r\n    LibraryModule\r\n  ],\r\n  providers: [],\r\n  bootstrap: [AppComponent]\r\n})\r\nexport class AppModule { }\r\n```\r\n\r\nOnce your library is imported, you can use its components, directives and pipes in your Angular application:\r\n\r\n```xml\r\n<!-- You can now use your library component in app.component.html -->\r\n<h1>\r\n  {{title}}\r\n</h1>\r\n<sampleComponent></sampleComponent>\r\n```\r\n\r\n## Development\r\n\r\nTo generate all `*.js`, `*.js.map` and `*.d.ts` files:\r\n\r\n```bash\r\n$ npm run tsc\r\n```\r\n\r\nTo lint all `*.ts` files:\r\n\r\n```bash\r\n$ npm run lint\r\n```\r\n\r\n## License\r\n\r\nMIT © [kitolog](mailto:nikita.kosilo@gmail.com)\r\n",
+  "readmeFilename": "README.MD",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kitolog/ng2-calendyear.git"
+  },
+  "scripts": {
+    "lint": "tslint src/**/*.ts",
+    "prepublish": "tsc",
+    "test": "tsc && karma start",
+    "tsc": "tsc"
+  },
+  "version": "0.1.2"
+}
