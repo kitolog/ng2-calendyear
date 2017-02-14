@@ -27,7 +27,10 @@
   "dependencies": {
     "@angular/material": "^2.0.0-beta.1",
     "moment": "^2.17.1",
-    "angular2-text-mask": "^4.1.0"
+    "angular2-text-mask": "^4.1.0",
+    "material-design-lite": "^1.3.0",
+    "angular2-mdl": "^2.13.1",
+    "@angular2-mdl-ext/expansion-panel": "0.0.1"
   },
   "devDependencies": {
     "@angular/core": "^2.0.0",
