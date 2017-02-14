@@ -3,6 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import {AppointmentsService} from './appointments.service';
 import {Appointment} from './appointment.model';
+import {MonthService} from './month.service';
 
 @Injectable()
 export class CalendarService {
@@ -12,13 +13,19 @@ export class CalendarService {
   public appointmentsDays$: Observable<any> = null;
   private _appointmentsDaysSource = new Subject<any>();
   public appointmentsDays: any = new Map();
+  public year: number;
+  public years: number[];
 
-  constructor(private appointmentsService: AppointmentsService) {
+  constructor(private appointmentsService: AppointmentsService,
+              private monthService: MonthService) {
     this.dayClicked$ = this._clickedDaySource.asObservable();
     this.appointmentsDays$ = this._appointmentsDaysSource.asObservable();
     this.appointmentsService.appointments$.subscribe(newAppointments => {
       this.setAppointmentDays(newAppointments)
     });
+
+    this.year = monthService.year;
+    this.years = monthService.generateYears();
   }
 
   setAppointmentDays(appointments: Appointment[]) {
@@ -35,8 +42,13 @@ export class CalendarService {
     this._appointmentsDaysSource.next(this.appointmentsDays);
   }
 
-  clickDay(day) {
+  clickDay(day: any) {
     this._clickedDaySource.next(day);
+  }
+
+  selectYear(year: number) {
+    console.log('YEAR', year);
+    // this._clickedDaySource.next(year);
   }
 
   hasEvent(momentDate) {

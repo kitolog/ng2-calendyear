@@ -12,7 +12,6 @@ import { MdlExpansionPanelModule } from '@angular2-mdl-ext/expansion-panel';
 import {TextMaskModule} from 'angular2-text-mask';
 import {SidebarComponent} from "./src/sidebar.component";
 import { MdlModule } from 'angular2-mdl';
-//sdfsdfsf
 export * from './src/calendyear.component';
 export * from './src/month.service';
 export * from './src/appointments.service';
