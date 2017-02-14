@@ -20,11 +20,7 @@ import {Appointment} from './appointment.model';
       </md-option>
     </md-select>
     <span class="spacer"></span>
-    <md-slide-toggle
-          class="example-margin"
-          [color]="color"
-          [checked]="checked"
-          [disabled]="disabled">
+    <md-slide-toggle [checked]="showSidebar">
         Sidebar
       </md-slide-toggle>
   </md-toolbar>
@@ -32,7 +28,7 @@ import {Appointment} from './appointment.model';
         <md-grid-tile [colspan]="7" class="calendar-block">
           <calendar></calendar>
         </md-grid-tile>
-        <md-grid-tile class="aside sidebar-block" [colspan]="3">
+        <md-grid-tile *ngIf="showSidebar" class="aside sidebar-block" [colspan]="3">
           <sidebar [openEditDialog]="getEditDialog()"></sidebar>
         </md-grid-tile>      
     </md-grid-list>
@@ -45,10 +41,15 @@ export class CalendyearComponent implements OnInit {
     @Input() devMode: boolean = false;
 
     data: any[];
+    year: number;
+    showSidebar: boolean = true;
     dialogRef: MdDialogRef<EditDialog>;
 
 
-    constructor(public dialog: MdDialog, private calendarService: CalendarService, private appointmentsService: AppointmentsService) {
+    constructor(public dialog: MdDialog,
+                private calendarService: CalendarService,
+                private monthService: MonthService,
+                private appointmentsService: AppointmentsService) {
         this.data = [
             {
                 Name: 'Google I/O',
@@ -70,9 +71,8 @@ export class CalendyearComponent implements OnInit {
         }
     }
 
-    selectYear(year: any) {
-        console.log('SELECT YEAR', year);
-        this.calendarService.selectYear(year);
+    selectYear() {
+        this.monthService.setYear(this.year);
     }
 
     openEditDialog(type: string, data: any) {

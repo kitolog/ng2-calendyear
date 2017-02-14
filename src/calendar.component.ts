@@ -66,6 +66,10 @@ export class CalendarComponent implements OnInit {
     this.сalendarService.appointmentsDays$.subscribe((appointmentDays) => {
       this.drawAppointmentDays(appointmentDays)
     })
+
+    this.monthService.year$.subscribe((year) => {
+      this.reloadCalendarDates();
+    })
   }
 
   reloadCalendarDates() {

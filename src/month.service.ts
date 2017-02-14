@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Month} from './month.model';
 import moment from 'moment';
+import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
 
 @Injectable()
 export class MonthService {
@@ -10,12 +12,15 @@ export class MonthService {
     'October', 'November', 'December'];
   monthLength: number[] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   year: number = new Date().getFullYear();
+  public year$: Observable<any> = null;
+  private _yearSource = new Subject<any>();
 
   constructor() {
-
+    this.year$ = this._yearSource.asObservable();
+    this._yearSource.next(this.year);
   }
 
-  generateDays(monthNumber) {
+  generateDays(monthNumber:any) {
     let result = [],
       monthLength = this.monthLength[monthNumber],
       startingDay = new Date(this.year, monthNumber, 1).getDay();
@@ -44,12 +49,13 @@ export class MonthService {
     return result;
   }
 
-  getMomentDate(year, month, date) {
+  getMomentDate(year:any, month:any, date:any) {
     return moment().set({year, month, date});
   }
 
-  setYear(year) {
+  setYear(year:any) {
     this.year = year;
+    this._yearSource.next(this.year);
   }
 
   generateYears() {
