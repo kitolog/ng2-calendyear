@@ -15,7 +15,9 @@ import {AppointmentsService} from './appointments.service';
         <md-grid-tile [colspan]="7">
           <calendar></calendar>
         </md-grid-tile>
-        <md-grid-tile [colspan]="3"> Sidebar </md-grid-tile>
+        <md-grid-tile class="aside" [colspan]="3">
+          <sidebar></sidebar>
+        </md-grid-tile>      
     </md-grid-list>
   `,
   encapsulation: ViewEncapsulation.None
@@ -40,6 +42,10 @@ export class CalendyearComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.AppointmentsService.appointments$.subscribe( appointments => {
+      this.appointmentsList = appointments;
+    });
+
     this.CalendarService.dayClicked$.subscribe( day => {
       this.openEditDialog('create', day);
     })
@@ -61,14 +67,6 @@ export class CalendyearComponent implements OnInit {
       console.log('Creating!!!!');
       this.dialogRef.componentInstance.startDate = day.momentDate;
     }
-    //let appointmentId = this.CalendarService.appointmentsDays.get(day.momentDate.format('YYYY-MM-DD'));
-    // if(appointmentId){
-    //   console.log('EITING!!!!!!!');
-    //   let appointment = this.AppointmentsService.getAppointmentById(appointmentId);
-    //   this.dialogRef.componentInstance.startDate = appointment.startDate;
-    //   // this.dialogRef.componentInstance.endDate = appointment.endDate;
-    //   // this.dialogRef.componentInstance.id = appointment.id;
-
 
     this.dialogRef.afterClosed().subscribe(appointmentConf => {
       //this.lastCloseResult = result;
