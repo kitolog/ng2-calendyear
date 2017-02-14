@@ -36,15 +36,16 @@ export class MonthService {
     for (let i = 1; i <= monthLength; i++) {
       result.push({
         date: i,
-        momentDate: this.getMomentDate(this.year, this.monthNames[monthNumber], i)
+        momentDate: this.getMomentDate(this.year, this.monthNames[monthNumber], i),
+        isSelected: false
       });
     }
 
     return result;
   }
 
-  getMomentDate(year, month, date){
-   return moment().set({year, month, date});
+  getMomentDate(year, month, date) {
+    return moment().set({year, month, date});
   }
 
   setYear(year) {

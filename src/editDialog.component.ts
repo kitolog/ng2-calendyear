@@ -1,55 +1,79 @@
 import {Component, OnInit} from '@angular/core';
 import {MdDialogRef} from '@angular/material';
-import { DatePickerOptions, DateModel } from 'ng2-datepicker';
+import {DatePickerOptions, DateModel} from 'ng2-datepicker';
 import moment from 'moment';
 
 @Component({
   selector: 'edit-dialog',
   template: `
-  <p>Name</p>
-  <input [(ngModel)]="name">
-  <p>Start</p>
-  <input [(ngModel)]="start">
-  <p>End</p>
-  <input [(ngModel)]="end">
-  <button type="button" (click)="closeAndSave()">Close and Save</button>`
+  <div class="calendyar-dialog">
+      <md-input-container class="full-width">
+        <input class="input-wide" [(ngModel)]="formData.name" md-input placeholder="Name">
+      </md-input-container>
+      <div class="input-row">
+        <md-input-container class="half-width">
+          <input [textMask]="{mask: dateMask}" [(ngModel)]="formData.start" md-input placeholder="Start">
+        </md-input-container>
+        <md-input-container class="half-width">
+          <input [textMask]="{mask: dateMask}" [(ngModel)]="formData.end" md-input placeholder="End">
+        </md-input-container>
+      </div>
+      <div class="buttons-row">
+        <button md-raised-button (click)="cancel()">Cancel</button>
+        <button
+          *ngIf="formData.id"
+          md-raised-button color="warn" (click)="remove()">Remove</button>
+        <button md-raised-button color="primary" (click)="save()">Save</button>
+      </div>
+  </div>`
 })
 
-export class EditDialog{
+export class EditDialog {
   startDate: any;
   endDate: any;
-  start: string;
-  end: string = '';
-  name: string = 'jhjfg';
-  id: string = '';
-  constructor(public dialogRef: MdDialogRef<EditDialog>) {
+  dateMask: any[] = [];
+  formData: any = {
+    id: '',
+    name: '',
+    start: '',
+    end: ''
+  };
 
+  constructor(public dialogRef: MdDialogRef<EditDialog>) {
+console.log('CONST');
   }
 
   ngOnInit() {
-    console.log('Init      !!!!');
-    console.log('inittting this.startDate', this.startDate.format('YYYY-MM-DD'));
-    console.log('inittting this.endDate', this.endDate);
+    console.log('INIT');
+    this.dateMask = [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
+    if (this.startDate) {
+      this.formData.start = this.startDate.format('YYYY-MM-DD');
+    }
 
-    this.start = this.startDate.format('YYYY-MM-DD');
-    this.end = this.endDate? this.endDate.format('YYYY-MM-DD') : '';
-
-
+    if (this.endDate) {
+      this.formData.end = this.endDate.format('YYYY-MM-DD');
+    }
   }
 
-  formatToMoment(dateString){
-    let dateArr = dateString.split('-');
-    let year = dateArr[0];
-    let month = dateArr[1] - 1;
-    let date = dateArr[2];
-    return moment().clone().set({year, month, date});
+  cancel() {
+    this.dialogRef.close(null);
   }
 
+  remove() {
+    this.dialogRef.close({action: 'remove', id: this.formData.id});
+  }
 
-  closeAndSave(){
-    console.log('this.formatToMoment(this.start)', this.formatToMoment(this.start));
-    let start = this.formatToMoment(this.start);
-    let end = this.formatToMoment(this.end);
-    this.dialogRef.close({start: start, end: end, name: this.name, id: this.id});
+  validateDates(start: string, end: string) {
+    this.dialogRef.close();
+  }
+
+  save() {
+    this.dialogRef.close({
+      start: this.formData.start,
+      end: this.formData.end,
+      name: this.formData.name,
+      id: this.formData.id,
+      action: this.formData.id ? 'edit' : 'add'
+    });
   }
 }

@@ -3,6 +3,7 @@ import {MdDialog, MdDialogRef} from '@angular/material';
 import {MonthService} from './month.service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {CalendarService} from './calendar.service';
+import {Appointment} from './appointment.model';
 
 @Component({
   selector: 'calendar',
@@ -26,9 +27,11 @@ import {CalendarService} from './calendar.service';
               </md-grid-tile>
               <md-grid-tile
                   (click)="dayClicked(day)"
+                  class="day-cell"
                   *ngFor="let day of month.days"
                   [colspan]="1"
                   [rowspan]="1"
+                  [class.selected]="day.isSelected"
                   [style.background-color]="day.color">
                   {{day.date}}
               </md-grid-tile>
@@ -37,21 +40,18 @@ import {CalendarService} from './calendar.service';
     </md-grid-list>
   `,
   styles: [`
-    md-grid-tile figure {
-      align-items: flex-start;
-    }
   `]
 })
 export class CalendarComponent implements OnInit {
 
   @Output()
-  // @Input() appointmentsList: any[];
-  // @Input() devMode: boolean = false;
+    // @Input() appointmentsList: any[];
+    // @Input() devMode: boolean = false;
 
   calendarDates: any[];
   data: any[];
 
-  constructor(public monthService: MonthService, public CalendarService: CalendarService) {
+  constructor(public monthService: MonthService, public сalendarService: CalendarService) {
     this.data = [
       {
         Name: 'Google I/O',
@@ -63,89 +63,29 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit() {
     this.reloadCalendarDates();
-    this.CalendarService.appointmentsDays$.subscribe((appointmentDays) => { this.drawAppointmentDays(appointmentDays) })
+    this.сalendarService.appointmentsDays$.subscribe((appointmentDays) => {
+      this.drawAppointmentDays(appointmentDays)
+    })
   }
 
-  reloadCalendarDates(){
+  reloadCalendarDates() {
     this.calendarDates = this.monthService.getMonths();
   }
 
-  drawAppointmentDays(appointmentDays){
+  drawAppointmentDays(appointmentDays) {
     this.calendarDates.map(month => {
-      month.days.map(day => {
-          if(day && day.momentDate && appointmentDays.get(day.momentDate.format('YYYY-MM-DD'))){
-            console.log('appointment while drawing', appointmentDays.get(day.momentDate.format('YYYY-MM-DD')));
-            day.color = 'green';
-          }
-        })
+      month.days.map((day: any) => {
+        if (day && day.momentDate && appointmentDays.get(day.momentDate.format('YYYY-MM-DD'))) {
+          day.isSelected = true;
+        } else if (day) {
+          day.isSelected = false;
+        }
+      })
     });
-    //console.log('drawing new appointmentDays', appointmentDays);
   }
 
-  dayClicked(day){
-    this.CalendarService.clickDay(day);
+  dayClicked(day) {
+    this.сalendarService.clickDay(day);
     //console.log('day', day);
   }
-
-  // addAppointment() {
-  //   let dialogRef = this.dialog.open(AppointmentDialog);
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('RESULT', result);
-  //     // this.selectedOption = result;
-  //   });
-  // }
-  //
-  // editAppointment() {
-  //   let dialogRef = this.dialog.open(AppointmentDialog);
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('RESULT', result);
-  //     // this.selectedOption = result;
-  //   });
-  // }
-  //
-  // deleteAppointment() {
-  //   let dialogRef = this.dialog.open(AppointmentDialog);
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('RESULT', result);
-  //     // this.selectedOption = result;
-  //   });
-  // }
 }
-
-// @Component({
-//   selector: 'dialog-result-example-dialog',
-//   template: `
-//             <h2 md-dialog-title>Neptune</h2>
-//             <md-dialog-content>
-//
-//             </md-dialog-content>
-//             <md-dialog-actions [attr.align]="actionsAlignment">
-//               <button
-//                 md-raised-button
-//                 color="primary"
-//                 md-dialog-close>Close</button>
-//               <a
-//                 md-button
-//                 color="primary"
-//                 href="https://en.wikipedia.org/wiki/Neptune"
-//                 target="_blank">Read more on Wikipedia</a>
-//               <button
-//                 md-button
-//                 color="secondary"
-//                 (click)="showInStackedDialog()">
-//                 OK</button>
-//             </md-dialog-actions>
-//         <p>{{ message }}</p>
-//         <button type="button" md-raised-button
-//             (click)="dialogRef.close(true)">OK</button>
-//         <button type="button" md-button
-//             (click)="dialogRef.close()">Cancel</button>
-//     `,
-// })
-// export class AppointmentDialog {
-//   public title: string;
-//   public message: string;
-//
-//   constructor(public dialogRef: MdDialogRef<AppointmentDialog>) {
-//   }
-// }

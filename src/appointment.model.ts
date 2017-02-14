@@ -1,4 +1,4 @@
-import moment from 'moment/src/moment';
+import moment from 'moment';
 
 export class Appointment {
   id: string;
@@ -9,14 +9,29 @@ export class Appointment {
 
   constructor(item: any) {
     this.name = item.name;
-    this.startDate = item.startDate;
-    this.endDate = item.endDate;
+    this.startDate = moment(item.startDate);
+    this.endDate = moment(item.endDate);
     this.isNoted = item.isNoted || false;
 
     if (item.hasOwnProperty('id') && item.id) {
       this.id = item.id;
     } else {
       this.id = Appointment.generateId();
+    }
+  }
+
+  update(data: any) {
+    if (data.name) {
+      this.name = data.name;
+    }
+    if (data.startDate) {
+      this.startDate = moment(data.startDate);
+    }
+    if (data.endDate) {
+      this.endDate = moment(data.endDate);
+    }
+    if (data.hasOwnProperty('isNoted')) {
+      this.isNoted = data.isNoted;
     }
   }
 
