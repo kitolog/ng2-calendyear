@@ -8,7 +8,7 @@ import {AppointmentsService} from './appointments.service';
 @Component({
   styleUrls: ['../resources/material-design-lite/material.min.css', '../resources/material-design-lite/expansion-panel.css'],
   selector: 'sidebar',
-  template: `   
+  template: `
         <div layout="column" layout-align="start">        
            <mdl-expansion-panel *ngFor="let year of years; let i = index; trackBy:index" #panel> 
               <mdl-expansion-panel-header>
@@ -17,10 +17,16 @@ import {AppointmentsService} from './appointments.service';
               <mdl-expansion-panel-content>
                 <mdl-expansion-panel-body>
                 <md-card  *ngFor="let appointment of appointmentsDictionary.get(year); let i = index; trackBy:index">
-                    <md-grid-list cols="3" rowHeight="20">
+                    <md-grid-list cols="5" rowHeight="20">
                       <md-grid-tile> {{appointment.name}} </md-grid-tile>
-                      <md-grid-tile> x{{year}} </md-grid-tile>
-                      <md-grid-tile> {{year}}$ </md-grid-tile>
+                      <md-grid-tile> {{getYear(appointment.startDate)}} </md-grid-tile>
+                      <md-grid-tile> {{getYear(appointment.endDate)}} </md-grid-tile>
+                      <md-grid-tile>                      
+                        <md-icon (click)="remove(appointment)" class="md-24">close</md-icon>                    
+                      </md-grid-tile>
+                      <md-grid-tile>                       
+                         <md-icon (click)="edit(appointment)" class="md-24">edit</md-icon>                      
+                      </md-grid-tile>
                     </md-grid-list>
                   </md-card>
                 </mdl-expansion-panel-body>
@@ -37,6 +43,7 @@ export class SidebarComponent implements OnInit {
   years: any;
   moment: any = moment;
   @Input() devMode: boolean = false;
+  @Input() openEditDialog: any;
 
   data: any[];
   dialogRef: MdDialogRef<EditDialog>;
@@ -51,9 +58,12 @@ export class SidebarComponent implements OnInit {
     this.AppointmentsService.appointments$.subscribe( appointments => {
       this.prepareData(appointments);
       this.appointmentsList = appointments;
-
     });
 
+  }
+
+  getYear(date){
+    return date.format('YYYY-MM-DD');
   }
 
   prepareData(appointsArr){
@@ -65,44 +75,20 @@ export class SidebarComponent implements OnInit {
       }else{
         this.appointmentsDictionary.set(appoint.startDate.year(), [appoint]);
       }
-      console.log('this.appointmentsDictionary', this.appointmentsDictionary)
     });
     this.years = Array.from(this.appointmentsDictionary.keys());
-    console.log('this.years', this.years);
   }
 
-  // openEditDialog(type: string, day: any) {
-  //   this.dialogRef = this.dialog.open(EditDialog);
-  //   let appointmentId = this.CalendarService.appointmentsDays.get(day.momentDate.format('YYYY-MM-DD'));
-  //
-  //   if(appointmentId){
-  //     console.log('edit ID-', appointmentId);
-  //     let appointment = this.AppointmentsService.getAppointmentById(appointmentId);
-  //     console.log('edit appointment', appointment);
-  //     this.dialogRef.componentInstance.startDate = appointment.startDate;
-  //     this.dialogRef.componentInstance.endDate = appointment.endDate;
-  //     this.dialogRef.componentInstance.name = appointment.name;
-  //     this.dialogRef.componentInstance.id = appointment.id;
-  //   }else{
-  //     console.log('Creating!!!!');
-  //     this.dialogRef.componentInstance.startDate = day.momentDate;
-  //   }
 
-    // this.dialogRef.afterClosed().subscribe(appointmentConf => {
-    //   //this.lastCloseResult = result;
-    //   console.log('after modal close', appointmentConf);
-    //   if(appointmentConf.id){
-    //     //Has ID - Edit
-    //     console.log('Edit existing', appointmentConf.id);
-    //     this.AppointmentsService.editAppointment(appointmentConf);
-    //   }else{
-    //     //No ID - new Appointment
-    //     console.log('Creating new!!!!', appointmentConf);
-    //     this.AppointmentsService.createNewAppointment(appointmentConf);
-    //   }
-    //   this.dialogRef = null;
-    // });
-  // }
+  remove(appointment){
+    this.AppointmentsService.removeAppointment(appointment);
+  }
+  
+  edit(appointment){
+    this.openEditDialog('edit', appointment);
+  }
+
+
 }
 
 

@@ -6,8 +6,20 @@ calendar{
   width: 100%
 }
 
-sidabar{
-  width: 100%;
+
+
+sidebar{
+  width: 95%;
+  padding-top: 50px;
+}
+
+sidebar md-icon.material-icons{
+  cursor: pointer;
+  font-size: 20px;
+}
+
+sidebar md-card{
+  padding: 10px;
 }
 
 .aside figure{
