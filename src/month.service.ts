@@ -12,6 +12,7 @@ export class MonthService {
     'October', 'November', 'December'];
   monthLength: number[] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   year: number = new Date().getFullYear();
+  originalYear: number = new Date().getFullYear();
   public year$: Observable<any> = null;
   private _yearSource = new Subject<any>();
 
@@ -20,7 +21,7 @@ export class MonthService {
     this._yearSource.next(this.year);
   }
 
-  generateDays(monthNumber:any) {
+  generateDays(monthNumber: any) {
     let result = [],
       monthLength = this.monthLength[monthNumber],
       startingDay = new Date(this.year, monthNumber, 1).getDay();
@@ -49,18 +50,18 @@ export class MonthService {
     return result;
   }
 
-  getMomentDate(year:any, month:any, date:any) {
+  getMomentDate(year: any, month: any, date: any) {
     return moment().set({year, month, date});
   }
 
-  setYear(year:any) {
+  setYear(year: any) {
     this.year = year;
     this._yearSource.next(this.year);
   }
 
   generateYears() {
     let years = [];
-    for (let i = this.year - 1; i < this.year + 5; i++) {
+    for (let i = this.originalYear - 1; i < this.originalYear + 5; i++) {
       years.push(i);
     }
 

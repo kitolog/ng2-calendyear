@@ -7,7 +7,7 @@ import moment from 'moment';
 @Injectable()
 export class AppointmentsService {
 
-  private appointments: any[] = [];
+  public appointments: any[] = [];
   private appointmentsMap: any = {};
   public appointments$: Observable<any> = null;
   private _appointmentsSource = new Subject<any>();

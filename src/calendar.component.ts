@@ -63,6 +63,8 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit() {
     this.reloadCalendarDates();
+    console.log('INIT');
+    this.drawAppointmentDays(this.сalendarService.appointmentsDays)
     this.сalendarService.appointmentsDays$.subscribe((appointmentDays) => {
       this.drawAppointmentDays(appointmentDays)
     })
@@ -77,6 +79,8 @@ export class CalendarComponent implements OnInit {
   }
 
   drawAppointmentDays(appointmentDays) {
+    console.log('DRAW');
+    console.log(this.сalendarService.appointmentsDays);
     this.calendarDates.map(month => {
       month.days.map((day: any) => {
         if (day && day.momentDate && appointmentDays.get(day.momentDate.format('YYYY-MM-DD'))) {

@@ -17,15 +17,22 @@ import {AppointmentsService} from './appointments.service';
               <mdl-expansion-panel-content>
                 <mdl-expansion-panel-body>
                 <md-card  *ngFor="let appointment of appointmentsDictionary.get(year); let i = index; trackBy:index">
-                    <md-grid-list cols="5" rowHeight="20">
-                      <md-grid-tile> {{appointment.name}} </md-grid-tile>
-                      <md-grid-tile> {{getYear(appointment.startDate)}} </md-grid-tile>
-                      <md-grid-tile> {{getYear(appointment.endDate)}} </md-grid-tile>
-                      <md-grid-tile>                      
-                        <md-icon (click)="remove(appointment)" class="md-24">close</md-icon>                    
+                    <md-grid-list cols="14" rowHeight="30">
+                      <md-grid-tile [colspan]="10" class="appointment-item"> 
+                        <md-grid-list  [style.height]="'100%'" [style.width]="'100%'" [style.font-size]="'13px'" cols="1" rowHeight="15">
+                          <md-grid-tile [colspan]="1" [rowspan]="1">
+                            {{appointment.name}}
+                          </md-grid-tile>
+                          <md-grid-tile [colspan]="1" [rowspan]="1">
+                            {{getYear(appointment.startDate)}} - {{getYear(appointment.endDate)}}
+                          </md-grid-tile>
+                        </md-grid-list>
                       </md-grid-tile>
-                      <md-grid-tile>                       
+                      <md-grid-tile [colspan]="2" class="appointment-action">                       
                          <md-icon (click)="edit(appointment)" class="md-24">edit</md-icon>                      
+                      </md-grid-tile>
+                      <md-grid-tile [colspan]="2" class="appointment-action">                      
+                        <md-icon (click)="remove(appointment)" class="md-24">close</md-icon>                    
                       </md-grid-tile>
                     </md-grid-list>
                   </md-card>
@@ -49,46 +56,43 @@ export class SidebarComponent implements OnInit {
   dialogRef: MdDialogRef<EditDialog>;
 
 
-  constructor(public dialog: MdDialog, private AppointmentsService: AppointmentsService) {
+  constructor(public dialog: MdDialog, private appointmentsService: AppointmentsService) {
 
   }
 
   ngOnInit() {
-    console.log('this.AppointmentsService.appointments$', this.AppointmentsService.appointments$);
-    this.AppointmentsService.appointments$.subscribe( appointments => {
+    this.prepareData(this.appointmentsService.appointments);
+    this.appointmentsService.appointments$.subscribe(appointments => {
       this.prepareData(appointments);
       this.appointmentsList = appointments;
     });
 
   }
 
-  getYear(date){
+  getYear(date) {
     return date.format('YYYY-MM-DD');
   }
 
-  prepareData(appointsArr){
+  prepareData(appointsArr) {
     this.appointmentsDictionary = new Map();
-    appointsArr.map( appoint => {
+    appointsArr.map(appoint => {
       let yearArr = this.appointmentsDictionary.get(appoint.startDate.year());
-      if(Array.isArray(yearArr)){
+      if (Array.isArray(yearArr)) {
         yearArr.push(appoint)
-      }else{
+      } else {
         this.appointmentsDictionary.set(appoint.startDate.year(), [appoint]);
       }
     });
     this.years = Array.from(this.appointmentsDictionary.keys());
   }
 
-
-  remove(appointment){
-    this.AppointmentsService.removeAppointment(appointment);
+  remove(appointment) {
+    this.appointmentsService.removeAppointment(appointment);
   }
-  
-  edit(appointment){
+
+  edit(appointment) {
     this.openEditDialog('edit', appointment);
   }
-
-
 }
 
 

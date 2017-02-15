@@ -65,6 +65,18 @@ calendyear {
   }
 }
 
+.appointment-action {
+  figure {
+    align-items: center;
+  }
+}
+
+.appointment-item {
+  figure {
+    justify-content: flex-start!important;
+  }
+}
+
 .calendyar-dialog {
   .full-width {
     width: 100%;

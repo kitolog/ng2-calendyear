@@ -48,6 +48,7 @@ console.log('CONST');
     this.dateMask = [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
     if (this.startDate) {
       this.formData.start = this.startDate.format('YYYY-MM-DD');
+      this.formData.end = this.startDate.format('YYYY-MM-DD');
     }
 
     if (this.endDate) {
