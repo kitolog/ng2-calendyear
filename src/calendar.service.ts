@@ -35,7 +35,6 @@ export class CalendarService {
         } else {
           this.appointmentsDays.set(startDateString, [appointment.id]);
         }
-        // this.appointmentsDays.set(startDay.format('YYYY-MM-DD'), appointment.id);
         startDay.add(1, 'day');
       }
       let endDateString = endDay.format('YYYY-MM-DD');
@@ -46,8 +45,6 @@ export class CalendarService {
       } else {
         this.appointmentsDays.set(endDateString, [appointment.id]);
       }
-      // this.appointmentsDays.set(endDay.format('YYYY-MM-DD'), appointment.id);
-      console.log('DAYS READY');
     });
     this._appointmentsDaysSource.next(this.appointmentsDays);
   }

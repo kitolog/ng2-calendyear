@@ -8,14 +8,14 @@ import moment from 'moment';
   template: `
   <div class="calendyar-dialog">
       <md-input-container class="full-width">
-        <input class="input-wide" [(ngModel)]="formData.name" md-input placeholder="Name">
+        <input class="input-wide" [(ngModel)]="formData.name" mdInput placeholder="Name">
       </md-input-container>
       <div class="input-row">
         <md-input-container class="half-width">
-          <input [textMask]="{mask: dateMask}" [(ngModel)]="formData.start" md-input placeholder="Start">
+          <input [textMask]="{mask: dateMask}" [(ngModel)]="formData.start" mdInput placeholder="Start">
         </md-input-container>
         <md-input-container class="half-width">
-          <input [textMask]="{mask: dateMask}" [(ngModel)]="formData.end" md-input placeholder="End">
+          <input [textMask]="{mask: dateMask}" [(ngModel)]="formData.end" mdInput placeholder="End">
         </md-input-container>
       </div>
       <div class="buttons-row">
