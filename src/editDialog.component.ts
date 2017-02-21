@@ -20,6 +20,7 @@ import moment from 'moment';
       </div>
       <div class="buttons-row">
         <button md-raised-button (click)="cancel()">Cancel</button>
+        <button md-raised-button (click)="createNew()">Add new</button>
         <button
           *ngIf="formData.id"
           md-raised-button color="warn" (click)="remove()">Remove</button>
@@ -40,11 +41,9 @@ export class EditDialog {
   };
 
   constructor(public dialogRef: MdDialogRef<EditDialog>) {
-console.log('CONST');
   }
 
   ngOnInit() {
-    console.log('INIT');
     this.dateMask = [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
     if (this.startDate) {
       this.formData.start = this.startDate.format('YYYY-MM-DD');
@@ -66,6 +65,12 @@ console.log('CONST');
 
   validateDates(start: string, end: string) {
     this.dialogRef.close();
+  }
+
+  createNew() {
+    this.dialogRef.close({
+      action: 'new'
+    });
   }
 
   save() {

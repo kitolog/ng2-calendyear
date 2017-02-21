@@ -43,7 +43,9 @@ export class MonthService {
       result.push({
         date: i,
         momentDate: this.getMomentDate(this.year, this.monthNames[monthNumber], i),
-        isSelected: false
+        isSelected: false,
+        opacity: 0,
+        type: ''
       });
     }
 

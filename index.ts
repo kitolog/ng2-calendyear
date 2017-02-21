@@ -3,6 +3,7 @@ import {CommonModule} from "@angular/common";
 import {CalendyearComponent} from "./src/calendyear.component";
 import {CalendarComponent} from "./src/calendar.component";
 import {EditDialog} from './src/editDialog.component';
+import {SelectDialog} from './src/selectDialog.component';
 import {MonthService} from "./src/month.service";
 import {AppointmentsService} from "./src/appointments.service";
 import {MaterialModule} from "@angular/material";
@@ -30,13 +31,15 @@ export * from './src/appointments.service';
     CalendyearComponent,
     CalendarComponent,
     SidebarComponent,
-    EditDialog
+    EditDialog,
+    SelectDialog
   ],
   exports: [
     CalendyearComponent,
   ],
   entryComponents:[
     EditDialog,
+    SelectDialog
   ]
 })
 

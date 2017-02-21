@@ -27,10 +27,27 @@ export class CalendarService {
       let endDay = appointment.endDate;
       let startDay = appointment.startDate.clone();
       while (!startDay.isSame(endDay)) {
-        this.appointmentsDays.set(startDay.format('YYYY-MM-DD'), appointment.id);
+        let startDateString = startDay.format('YYYY-MM-DD');
+        if (this.appointmentsDays.has(startDateString)) {
+          let existAppointments = this.appointmentsDays.get(startDateString);
+          existAppointments.push(appointment.id);
+          this.appointmentsDays.set(startDay.format('YYYY-MM-DD'), existAppointments);
+        } else {
+          this.appointmentsDays.set(startDateString, [appointment.id]);
+        }
+        // this.appointmentsDays.set(startDay.format('YYYY-MM-DD'), appointment.id);
         startDay.add(1, 'day');
       }
-      this.appointmentsDays.set(endDay.format('YYYY-MM-DD'), appointment.id);
+      let endDateString = endDay.format('YYYY-MM-DD');
+      if (this.appointmentsDays.has(endDateString)) {
+        let existAppointments = this.appointmentsDays.get(endDateString);
+        existAppointments.push(appointment.id);
+        this.appointmentsDays.set(endDateString, existAppointments);
+      } else {
+        this.appointmentsDays.set(endDateString, [appointment.id]);
+      }
+      // this.appointmentsDays.set(endDay.format('YYYY-MM-DD'), appointment.id);
+      console.log('DAYS READY');
     });
     this._appointmentsDaysSource.next(this.appointmentsDays);
   }

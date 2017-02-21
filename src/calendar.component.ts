@@ -31,8 +31,8 @@ import {Appointment} from './appointment.model';
                   *ngFor="let day of month.days"
                   [colspan]="1"
                   [rowspan]="1"
-                  [class.selected]="day.isSelected"
-                  [style.background-color]="day.color">
+                  [class.selected]="day.type"
+                  [style.background]="getDayColor(day)">
                   {{day.date}}
               </md-grid-tile>
           </md-grid-list>
@@ -45,8 +45,6 @@ import {Appointment} from './appointment.model';
 export class CalendarComponent implements OnInit {
 
   @Output()
-    // @Input() appointmentsList: any[];
-    // @Input() devMode: boolean = false;
 
   calendarDates: any[];
   data: any[];
@@ -78,21 +76,60 @@ export class CalendarComponent implements OnInit {
     this.calendarDates = this.monthService.getMonths();
   }
 
-  drawAppointmentDays(appointmentDays) {
+  getDayColor(day: any) {
+    let color = '#fff';
+    if (day) {
+      color = '#7aba7a';
+      if (day.type) {
+        // color = 'rgba(200, 87, 98, ' + day.opacity + ')';
+        // color = 'rgb(200, 87, 98)';
+        color = '#c85762';
+        switch (day.type) {
+          case 'start':
+            color = 'linear-gradient(to bottom right, #7aba7a 0%, #7aba7a 50%, ' + color + ' 50%, ' + color + ' 100%)';
+            break;
+
+          case 'end':
+            color = 'linear-gradient(to bottom right, ' + color + ' 0%, ' + color + ' 50%, #7aba7a 50%, #7aba7a 100%)';
+            break;
+        }
+      }
+    }
+    return color;
+  }
+
+  drawAppointmentDays(appointmentDays: any) {
     console.log('DRAW');
+    console.log('DRAW-NEW');
     console.log(this.сalendarService.appointmentsDays);
     this.calendarDates.map(month => {
-      month.days.map((day: any) => {
+      month.days.map((day: any, index: number) => {
         if (day && day.momentDate && appointmentDays.get(day.momentDate.format('YYYY-MM-DD'))) {
-          day.isSelected = true;
+          if ((index === 0) || !month.days[index - 1]['appointments']) {
+            day.type = 'start';
+          } else {
+            day.type = 'step';
+          }
+
+          day['appointments'] = appointmentDays.get(day.momentDate.format('YYYY-MM-DD'));
+          console.log('APPP', appointmentDays.get(day.momentDate.format('YYYY-MM-DD')));
+          day.opacity = 0.5 + appointmentDays.get(day.momentDate.format('YYYY-MM-DD')).length * 0.2;
+          if (day.opacity > 1) {
+            day.opacity = 1;
+          }
+          // if(){
+          //
+          // }
         } else if (day) {
-          day.isSelected = false;
+          if ((index !== 0) && month.days[index - 1]['appointments']) {
+            day.type = 'end';
+          }
         }
       })
     });
   }
 
-  dayClicked(day) {
+  dayClicked(day: any) {
     this.сalendarService.clickDay(day);
     //console.log('day', day);
   }

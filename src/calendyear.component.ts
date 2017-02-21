@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import {EditDialog} from './editDialog.component';
+import {SelectDialog} from './selectDialog.component';
 
 import {MonthService} from './month.service';
 import {CalendarService} from './calendar.service';
@@ -44,7 +45,7 @@ export class CalendyearComponent implements OnInit {
   year: number;
   showSidebar: boolean = true;
   dialogRef: MdDialogRef<EditDialog>;
-
+  selectDialogRef: MdDialogRef<SelectDialog>;
 
   constructor(public dialog: MdDialog,
               private calendarService: CalendarService,
@@ -54,9 +55,13 @@ export class CalendyearComponent implements OnInit {
 
   ngOnInit() {
     this.year = this.monthService.year;
-    this.calendarService.dayClicked$.subscribe(day => {
-      this.openEditDialog('create', day);
-    })
+    this.calendarService.dayClicked$.subscribe((data) => {
+      if (data.appointments && (data.appointments.length > 1)) {
+        this.openSelectDialog(data);
+      } else {
+        this.openEditDialog('create', data);
+      }
+    });
 
     this.prepareAppointments();
   }
@@ -95,12 +100,16 @@ export class CalendyearComponent implements OnInit {
     let appointment = null;
     if (data instanceof Appointment) {
       appointment = data;
-    } else {
+    } else if (data && data.momentDate) {
       let appointmentId = this.calendarService.appointmentsDays.get(data.momentDate.format('YYYY-MM-DD'));
       appointment = this.appointmentsService.getAppointmentById(appointmentId);
-      console.log('APP', appointment, appointmentId);
     }
     this.dialogRef = this.dialog.open(EditDialog);
+
+    if (data && data.momentDate) {
+      this.dialogRef.componentInstance.startDate = data.momentDate;
+    }
+
     if (appointment) {
       this.dialogRef.componentInstance.formData = {
         id: appointment.id,
@@ -109,14 +118,16 @@ export class CalendyearComponent implements OnInit {
         end: appointment.endDate.format('YYYY-MM-DD')
       };
     }
-    this.dialogRef.componentInstance.startDate = data.momentDate;
-
 
     this.dialogRef.afterClosed().subscribe((data: any) => {
       if (data && data.action) {
         switch (data.action) {
           case 'add':
             this.appointmentsService.addAppointment(data);
+            break;
+          case 'new':
+            this.dialogRef = null;
+            this.openEditDialog(null, null);
             break;
           case 'edit':
             this.appointmentsService.editAppointment(data);
@@ -125,8 +136,35 @@ export class CalendyearComponent implements OnInit {
             this.appointmentsService.removeAppointment(data);
             break;
         }
+
+        if (this.dialogRef !== null) {
+          this.dialogRef = null;
+        }
       }
-      this.dialogRef = null;
+    });
+  }
+
+  openSelectDialog(data: any) {
+    let appointmentsData = [];
+    for (let appointmentId of data.appointments) {
+      let appointmentData = this.appointmentsService.getAppointmentById(appointmentId);
+      if (appointmentData) {
+        appointmentsData.push(appointmentData);
+      }
+    }
+
+    this.selectDialogRef = this.dialog.open(SelectDialog);
+    this.selectDialogRef.componentInstance.appointments = appointmentsData;
+
+    this.selectDialogRef.afterClosed().subscribe((selectData: any) => {
+      if (selectData && (typeof selectData.appointment !== 'undefined')) {
+        if (selectData && selectData.hasOwnProperty('appointment')) {
+          this.openEditDialog('edit', selectData.appointment);
+        } else {
+          this.openEditDialog('edit', data);
+        }
+      }
+      this.selectDialogRef = null;
     });
   }
 }
